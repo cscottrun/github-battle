@@ -5,7 +5,6 @@ const api = require('../utils/api')
 //stateless functional compononent
 function SelectLanguage (props) {
   let languages = ['All', 'JavaScript','Ruby','Java','CSS','Python'];
-
   return (
     <ul className = 'languages'>
         {languages.map( lang => {return(
@@ -47,12 +46,14 @@ function RepoGrid (props) {
   )
 }
 
+RepoGrid.propTypes = {
+  repos: PropTypes.array.isRequired,
+}
+
 SelectLanguage.propTypes = {
   selectedLanguage: PropTypes.string.isRequired,
   onSelect: PropTypes.func.isRequired
 }
-
-
 
 class Popular extends React.Component {
   constructor (props) {
@@ -63,6 +64,7 @@ class Popular extends React.Component {
     };
     this.updateLanguage = this.updateLanguage.bind(this);
   }
+
   componentDidMount (){
     //make the ajax request
     this.updateLanguage(this.state.selectedLanguage)
@@ -80,7 +82,7 @@ class Popular extends React.Component {
       .then (function (repos){
         this.setState( function(){
          return {
-            repos
+            repos: repos
           }
        });
      }.bind(this));
@@ -92,7 +94,9 @@ class Popular extends React.Component {
           selectedLanguage = {this.state.selectedLanguage}
           onSelect = {this.updateLanguage}
         />
+        { !this.state.repos ? <p>Loading</p> : 
         <RepoGrid repos= {this.state.repos} />
+        }
       </div>
     )
   }
