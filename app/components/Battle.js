@@ -10,6 +10,7 @@ class PlayerInput extends React.Component {
       username: '',
     }
     this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
   handleChange(event) {
     let value = event.targe.value;
@@ -20,7 +21,12 @@ class PlayerInput extends React.Component {
     })
   }
   handleSubmit (event) {
+    //this keeps the form from submitting to a server
     event.preventDefault();
+    this.props.onSubmit (
+      this.prop.id,
+      this.props.username
+    )
   }
 
   render () {
@@ -40,7 +46,7 @@ class PlayerInput extends React.Component {
           onChange = {this.handleChange}
         />
         <button 
-          classname = 'button'
+          className = 'button'
           type= 'submit'
           disabled={!this.state.username}>
             Submit 
@@ -72,7 +78,7 @@ class Battle extends React.Component {
     this.setState(function() {
       let newState = {};
       newState[id + 'Name'] = username;
-      newState[id + 'Image'] = `https://github.com/${username}.png?size=200`;
+      newState[id + 'Image'] = 'https://github.com/' + username + '.png?size=200';
       return newState;
     })
   }
